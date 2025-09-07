@@ -2,7 +2,6 @@ from pathlib import Path
 import os
 import dj_database_url  # optional, if using Railway DATABASE_URL
 
-# BASE DIR
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY
@@ -10,10 +9,10 @@ SECRET_KEY = os.environ.get(
     'SECRET_KEY',
     'django-insecure-80bjo#8%9c#4l9o7p8!$xr)m++b1sc)-)pq^l77dhcvy!hw$8)'
 )
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['*']
 
-# APPLICATIONS
+# Applications
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -22,13 +21,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # your apps
     'base',
     'rest_framework',
     'corsheaders',
 ]
 
-# MIDDLEWARE
+# Middleware
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -42,13 +40,14 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-# URL CONFIG
+# URL Config
 ROOT_URLCONF = 'backend.urls'
 
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'frontend_src' / 'dist'],  # React build folder
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -62,7 +61,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'backend.wsgi.application'
 
-# DATABASE
+# Database
 if 'DATABASE_URL' in os.environ:
     DATABASES = {
         'default': dj_database_url.parse(os.environ['DATABASE_URL'])
@@ -79,7 +78,7 @@ else:
         }
     }
 
-# PASSWORD VALIDATION
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -87,19 +86,22 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# INTERNATIONALIZATION
+# Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# STATIC FILES
+# Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / 'frontend_src' / 'dist' / 'assets',
+]
 
-# MEDIA FILES
+# Media files
 MEDIA_URL = '/images/'
 MEDIA_ROOT = BASE_DIR / 'static/images'
 
-# DEFAULT AUTO FIELD
+# Default primary key
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
