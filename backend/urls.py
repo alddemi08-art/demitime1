@@ -4,6 +4,6 @@ from django.views.generic import TemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('base.urls')),  # Your API
-    re_path(r'^.*$', TemplateView.as_view(template_name='index.html')),  # Catch-all for React
+    path('api/', include('base.urls')),
+    re_path(r'^(?:.*)/?$', TemplateView.as_view(template_name='index.html')),  # React catch-all
 ]
